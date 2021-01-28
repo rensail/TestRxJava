@@ -9,33 +9,52 @@ import io.reactivex.Observer;
 import io.reactivex.Scheduler;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.BiConsumer;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.observers.SafeObserver;
 import io.reactivex.schedulers.Schedulers;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private  static final String TAG = "MainActivity";
+    private  Button button_demo;
     Integer i =10;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        button_demo =findViewById(R.id.button_demo);
+        button_demo.setOnClickListener(this);
         //testconcat();
         //testmerge();
         //testmergeDelayError();
         //testzip();
-        testcombineLastest();
+        //testcombineLastest();
+        //testcollect();
+        //testCount();
+        testStartWith();
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.button_demo:
+                Intent intent =new Intent(MainActivity.this,DemoActivity.class);
+                startActivity(intent);
+        }
     }
 
     //TODO ------------------------基础的操作符-------------------------------------------------------
@@ -458,6 +477,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * 当两个Observables中的任何一个发送了数据后，将先发送了数据的Observables 的最新（最后）一个数据 与 另外一个Observable发送的每个数据结合
+     */
     public void testcombineLastest(){
         Observable.combineLatest(Observable.intervalRange(0,3,1,1,TimeUnit.SECONDS),
                                  Observable.intervalRange(3,3,1,1,TimeUnit.SECONDS),
@@ -474,5 +496,75 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "合并的结果是： "+aLong);
             }
         });
+    }
+
+
+    /**
+     * 将被观察者Observable发送的数据事件收集到一个数据结构里
+     */
+    public void testcollect(){
+        Observable.just(1,2,3,4,5,6)
+                  .collect(new Callable<ArrayList<Integer>>() {
+                      @Override
+                      public ArrayList<Integer> call() throws Exception {
+                          return new ArrayList<>();
+                      }
+                  }, new BiConsumer<ArrayList<Integer>, Integer>() {
+                      @Override
+                      public void accept(@NonNull ArrayList<Integer> integers, @NonNull Integer integer) throws Exception {
+                          integers.add(integer);
+                      }
+                  }).subscribe(new Consumer<ArrayList<Integer>>() {
+            @Override
+            public void accept(@NonNull ArrayList<Integer> integers) throws Exception {
+                Log.d(TAG, "本次发送的数据是： "+integers);
+            }
+        });
+    }
+
+
+    /**
+     *统计被观察者发送事件的数量
+     */
+    public  void testCount(){
+        Observable.concat(Observable.just(1,2,3,4,5),Observable.just(6,7,8,9))
+                  .count()
+                  .subscribe(new Consumer<Long>() {
+                      @Override
+                      public void accept(@NonNull Long aLong) throws Exception {
+                          Log.d(TAG,"事件的数量["+aLong+"]");
+                      }
+                  });
+    }
+
+    /**
+     *
+     */
+    public void testStartWith(){
+        Observable.just(1,2,3)
+                  .startWith(4)//追加单个事件
+                  .startWithArray(5,6,7)//追加多个事件
+                  .startWith(Observable.just(8,9,10))//追加单个被观察者
+                  .subscribe(new Observer<Integer>() {
+                      @Override
+                      public void onSubscribe(Disposable d) {
+                          Log.d(TAG, "开始采用subscribe连接");
+                      }
+
+                      @Override
+                      public void onNext(Integer integer) {
+                          Log.d(TAG, "接收到的事件 =  " + integer);
+                      }
+
+                      @Override
+                      public void onError(Throwable e) {
+                          Log.d(TAG, "对Error事件作出响应");
+                      }
+
+                      @Override
+                      public void onComplete() {
+                          Log.d(TAG, "对Complete事件作出响应");
+                      }
+                  });
     }
 }
