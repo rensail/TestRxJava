@@ -14,15 +14,15 @@ import io.reactivex.schedulers.Schedulers;
 import android.os.Bundle;
 import android.util.Log;
 
-public class DemoActivity extends AppCompatActivity {
+public class Demo2Activity extends AppCompatActivity {
     private  static  final String TAG = "DemoActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_demo);
-        //testCache();
-        testThread();
+        setContentView(R.layout.activity_demo2);
+        testCache();
+        //testThread();
     }
 
     /**
@@ -33,7 +33,7 @@ public class DemoActivity extends AppCompatActivity {
         //模拟缓存中的数据
         String cache = null;
         //模拟磁盘缓存中的数据
-        String diskcache = "哈哈哈哈";
+        String diskcache = null;
 
         Observable<String> observable_cache = Observable.create(new ObservableOnSubscribe<String>() {
             @Override

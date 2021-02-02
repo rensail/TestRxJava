@@ -1,28 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".Demo3Activity">
+
 
     <Button
-        android:id="@+id/button_demo1"
+        android:id="@+id/button_start_no"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="DEMO1 基础操作/组合/合并"/>
+        android:layout_gravity="center"
+        android:text="开始无条件网络轮询"
+        />
+
 
     <Button
-        android:id="@+id/button_demo2"
+        android:id="@+id/button_start"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="DEMO2 模拟从缓存中获取数据"/>
+        android:layout_gravity="center"
+        android:text="开始有条件网络轮询"
+        />
 
     <Button
-        android:id="@+id/button_demo3"
+        android:id="@+id/button_stop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="DEMO3 模拟网络请求轮询"/>
+        android:layout_gravity="center"
+        android:text="停止有条件网络轮询"
+        />
 
 </LinearLayout>
