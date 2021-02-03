@@ -23,6 +23,12 @@
         android:id="@+id/button_demo3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="DEMO3 模拟网络请求轮询"/>
+        android:text="DEMO3 模拟网络请求"/>
+
+    <Button
+        android:id="@+id/button_demo4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="DEMO4   合并数据源"/>
 
 </LinearLayout>

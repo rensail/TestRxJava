@@ -32,4 +32,20 @@
         android:text="停止有条件网络轮询"
         />
 
+    <Button
+        android:id="@+id/button_retry"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="测试网络请求出错重连"
+        />
+
+    <Button
+        android:id="@+id/button_nest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="测试网络请求嵌套回调"
+        />
+
 </LinearLayout>

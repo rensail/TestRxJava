@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button button_demo1,button_demo2,button_demo3;
+    private Button button_demo1,button_demo2,button_demo3,button_demo4;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,9 +36,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         button_demo1 =findViewById(R.id.button_demo1);
         button_demo2 =findViewById(R.id.button_demo2);
         button_demo3 =findViewById(R.id.button_demo3);
+        button_demo4 =findViewById(R.id.button_demo4);
         button_demo1.setOnClickListener(this);
         button_demo2.setOnClickListener(this);
         button_demo3.setOnClickListener(this);
+        button_demo4.setOnClickListener(this);
 
     }
 
@@ -58,6 +60,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button_demo3:
                 Intent intent3 =new Intent(MainActivity.this, Demo3Activity.class);
                 startActivity(intent3);
+                break;
+
+            case R.id.button_demo4:
+                Intent intent4 =new Intent(MainActivity.this, Demo4Activity.class);
+                startActivity(intent4);
                 break;
 
             default:
