@@ -7,22 +7,25 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.BiFunction;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+
+import java.util.Date;
 
 public class Demo4Activity extends AppCompatActivity implements View.OnClickListener{
 
     private  static final  String TAG = "Demo4Activity";
     private  Button button_merge_local,button_merge_net_local;
+    private TextView textview_demo4_result;
+    StringBuilder demo4_sb = new StringBuilder();
 
     private  String local_data1 = "本地数据1";
     private  String local_data2 = "本地数据2";
@@ -35,20 +38,29 @@ public class Demo4Activity extends AppCompatActivity implements View.OnClickList
 
         button_merge_local = findViewById(R.id.button_merge_local);
         button_merge_net_local = findViewById(R.id.button_merge_net_local);
+        textview_demo4_result = findViewById(R.id.textview_demo4_result);
         button_merge_local.setOnClickListener(this);
         button_merge_net_local.setOnClickListener(this);
     }
 
+    public void cleanResult(){
+        if(textview_demo4_result.getText()!=""){
+            textview_demo4_result.setText("");
+        }
+        demo4_sb.setLength(0);
+    }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()){
 
             case R.id.button_merge_local:
+                cleanResult();
                 mergeLocalData();
                 break;
 
             case R.id.button_merge_net_local:
+                cleanResult();
                 mergeNetWorkAndLocal();
                 break;
 
@@ -62,8 +74,6 @@ public class Demo4Activity extends AppCompatActivity implements View.OnClickList
      */
 
     public void  mergeLocalData(){
-
-
 
         Observable<String> observable1 = Observable.just(local_data1);
         Observable<String> observable2 = Observable.just(local_data2);
@@ -79,7 +89,9 @@ public class Demo4Activity extends AppCompatActivity implements View.OnClickList
 
                       @Override
                       public void onNext(String s) {
-                          Log.d(TAG,"数据："+s);
+                          Date date = new Date(System.currentTimeMillis());
+                          demo4_sb.append( date.toString()+"\n");
+                          demo4_sb.append("数据："+s+"\n");
                           local_combine_data = local_combine_data+s;
                       }
 
@@ -89,7 +101,11 @@ public class Demo4Activity extends AppCompatActivity implements View.OnClickList
 
                       @Override
                       public void onComplete() {
-                          Log.d(TAG,"合并后的数据是："+local_combine_data);
+                          Date date = new Date(System.currentTimeMillis());
+                          demo4_sb.append( date.toString()+"\n");
+                          demo4_sb.append("合并后的数据是："+local_combine_data+"\n");
+                          textview_demo4_result.setText(demo4_sb.toString());
+                          local_combine_data="";
                       }
                   });
     }
@@ -101,7 +117,7 @@ public class Demo4Activity extends AppCompatActivity implements View.OnClickList
 
     public void  mergeNetWorkAndLocal(){
         Retrofit retrofit = new Retrofit.Builder()
-                                        .baseUrl("http://fanyi.youdao.com/")
+                                        .baseUrl("https://fanyi.youdao.com/")
                                         .addConverterFactory(GsonConverterFactory.create())
                                         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                                         .build();
@@ -127,18 +143,21 @@ public class Demo4Activity extends AppCompatActivity implements View.OnClickList
 
               @Override
               public void onNext(String s) {
-                  Log.d(TAG,"合并后的数据："+s);
+                  Date date = new Date(System.currentTimeMillis());
+                  demo4_sb.append( date.toString()+"\n");
+                  demo4_sb.append("合并后的数据是："+s);
               }
 
               @Override
               public void onError(Throwable e) {
-                  Log.d(TAG,"网络请求失败！");
-                  Log.d(TAG,e.getMessage());
+                  demo4_sb.append("网络请求失败！");
+                  demo4_sb.append(e.getMessage());
+                  textview_demo4_result.setText(demo4_sb);
               }
 
               @Override
               public void onComplete() {
-
+                  textview_demo4_result.setText(demo4_sb.toString());
               }
           });
     }

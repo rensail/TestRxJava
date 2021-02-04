@@ -14,20 +14,32 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.concurrent.TimeUnit;
 
 public class Demo3Activity extends AppCompatActivity implements View.OnClickListener{
     private  static final  String TAG = "Demo3Activity";
 
     private Button button_stop,button_start,button_start_no,button_retry,button_nest;
+    private EditText edittext_demo3_log;
+    //有条件轮询的停止标识符
     private boolean isStop = true;
+
+    private int mpid;
+    LogShow logShow = new LogShow();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +51,46 @@ public class Demo3Activity extends AppCompatActivity implements View.OnClickList
         button_start_no = findViewById(R.id.button_start_no);
         button_retry = findViewById(R.id.button_retry);
         button_nest = findViewById(R.id.button_nest);
+        edittext_demo3_log =findViewById(R.id.edittext_demo3_log);
         button_stop.setOnClickListener(this);
         button_start.setOnClickListener(this);
         button_start_no.setOnClickListener(this);
         button_retry.setOnClickListener(this);
         button_nest.setOnClickListener(this);
 
+        edittext_demo3_log.setFocusable(false);
+        edittext_demo3_log.setClickable(false);
+
+        mpid = android.os.Process.myPid();
+
+    }
+
+    Handler mhandler = new Handler() {
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    break;
+                case 2:
+                    //显示日志
+                    edittext_demo3_log.setMovementMethod(ScrollingMovementMethod.getInstance());
+                    edittext_demo3_log.setSelection(edittext_demo3_log.getText().length(), edittext_demo3_log.getText().length());
+                    edittext_demo3_log.setText(edittext_demo3_log.getText().append(msg.obj.toString()));
+                    break;
+            }
+        }
+    };
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        logShow.show(mhandler,mpid);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        logShow.recycle();
     }
 
     @Override
@@ -92,7 +138,7 @@ public class Demo3Activity extends AppCompatActivity implements View.OnClickList
 
                           Log.d(TAG,"进行第" + aLong + "次轮询");
 
-                          Retrofit retrofit = new Retrofit.Builder().baseUrl("http://fanyi.youdao.com/")
+                          Retrofit retrofit = new Retrofit.Builder().baseUrl("https://fanyi.youdao.com/")
                                                                     .addConverterFactory(GsonConverterFactory.create())//设置使用Gson解析
                                                                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())// 支持RxJava
                                                                     .build();
@@ -154,7 +200,7 @@ public class Demo3Activity extends AppCompatActivity implements View.OnClickList
      */
 
     public void testNetworkPoll_2(){
-          Retrofit retrofit = new Retrofit.Builder().baseUrl("http://fanyi.youdao.com/")
+          Retrofit retrofit = new Retrofit.Builder().baseUrl("https://fanyi.youdao.com/")
                                                     .addConverterFactory(GsonConverterFactory.create())
                                                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                                                     .build();
@@ -224,7 +270,7 @@ public class Demo3Activity extends AppCompatActivity implements View.OnClickList
 
     public void testNetWorkRetry(){
 
-        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://fanyi.youdao.com/")
+        Retrofit retrofit = new Retrofit.Builder().baseUrl("https://fanyi.youdao.com/")
                                                   .addConverterFactory(GsonConverterFactory.create())
                                                   .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                                                   .build();
@@ -304,7 +350,7 @@ public class Demo3Activity extends AppCompatActivity implements View.OnClickList
 
     public  void testNetWorkNest(){
 
-        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://fanyi.youdao.com/")
+        Retrofit retrofit = new Retrofit.Builder().baseUrl("https://fanyi.youdao.com/")
                                                   .addConverterFactory(GsonConverterFactory.create())
                                                   .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                                                   .build();

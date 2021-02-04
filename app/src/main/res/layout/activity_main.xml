@@ -9,26 +9,30 @@
 
     <Button
         android:id="@+id/button_demo1"
+        android:gravity="left"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="DEMO1 基础操作/组合/合并"/>
 
     <Button
         android:id="@+id/button_demo2"
+        android:gravity="left"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="DEMO2 模拟从缓存中获取数据"/>
+        android:text="DEMO2 获取缓存数据/线程调度"/>
 
     <Button
         android:id="@+id/button_demo3"
+        android:gravity="left"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="DEMO3 模拟网络请求"/>
 
     <Button
         android:id="@+id/button_demo4"
+        android:gravity="left"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="DEMO4   合并数据源"/>
+        android:text="DEMO4  合并数据源"/>
 
 </LinearLayout>

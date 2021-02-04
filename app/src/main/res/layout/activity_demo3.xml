@@ -6,6 +6,20 @@
     android:orientation="vertical"
     tools:context=".Demo3Activity">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical"
+            android:layout_weight="1">
 
     <Button
         android:id="@+id/button_start_no"
@@ -47,5 +61,28 @@
         android:layout_gravity="center"
         android:text="测试网络请求嵌套回调"
         />
+
+        </LinearLayout>
+    </ScrollView>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            >
+            <EditText
+                android:id="@+id/edittext_demo3_log"
+                android:layout_width="match_parent"
+                android:gravity="top|left"
+                android:textSize="10dp"
+                android:layout_height="match_parent"
+                />
+        </LinearLayout>
+
 
 </LinearLayout>

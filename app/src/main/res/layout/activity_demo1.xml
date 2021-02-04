@@ -1,9 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".Demo1Activity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        >
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical"
+        android:layout_weight="1">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="变化操作符"
+            android:gravity="center"/>
+
+        <Button
+            android:id="@+id/button_test_rxjava"
+            android:layout_width="match_parent"
+            android:text="rxjava"
+            android:onClick="onClick"
+            android:layout_height="wrap_content"
+            />
+
+        <Button
+            android:id="@+id/button_test_map"
+            android:layout_width="match_parent"
+            android:text="map"
+            android:onClick="onClick"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/button_test_flatmap"
+            android:layout_width="match_parent"
+            android:text="flatmap"
+            android:onClick="onClick"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/button_test_concatmap"
+            android:layout_width="match_parent"
+            android:text="concatmap"
+            android:onClick="onClick"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/button_test_buffer"
+            android:layout_width="match_parent"
+            android:text="buffer"
+            android:onClick="onClick"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="组合操作符"
+            android:gravity="center"/>
+
+        <Button
+            android:id="@+id/button_test_concat"
+            android:layout_width="match_parent"
+            android:text="concat"
+            android:onClick="onClick"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/button_test_merge"
+            android:layout_width="match_parent"
+            android:text="merge"
+            android:onClick="onClick"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/button_test_merge_delayerror"
+            android:layout_width="match_parent"
+            android:text="mergedelayerror"
+            android:onClick="onClick"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="合并操作符"
+            android:gravity="center"/>
+
+        <Button
+            android:id="@+id/button_test_zip"
+            android:layout_width="match_parent"
+            android:text="zip"
+            android:onClick="onClick"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/button_test_combinelastest"
+            android:layout_width="match_parent"
+            android:text="combinelastest"
+            android:onClick="onClick"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/button_test_count"
+            android:layout_width="match_parent"
+            android:text="count"
+            android:onClick="onClick"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/button_test_startwith"
+            android:layout_width="match_parent"
+            android:text="startwith"
+            android:onClick="onClick"
+            android:layout_height="wrap_content"/>
+
+       </LinearLayout>
+    </ScrollView>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1">
+
+            <EditText
+                android:id="@+id/edittext_demo1_log"
+                android:textSize="10dp"
+                android:gravity="top|left"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </EditText>
+
+        </LinearLayout>
+
+
+
+</LinearLayout>

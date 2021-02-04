@@ -15,8 +15,12 @@ import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
-import android.widget.Button;
+import android.view.View;
+import android.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,20 +30,91 @@ import java.util.concurrent.TimeUnit;
 public class Demo1Activity extends AppCompatActivity {
     private  static final String TAG = "Demo1Activity";
     Integer i =10;
+    private  EditText  edittext_demo1_log;
+    LogShow logShow = new LogShow();
+    private int mpid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_demo1);
 
-        //testconcat();
-        //testmerge();
-        //testmergeDelayError();
-        //testzip();
-        //testcombineLastest();
-        //testcollect();
-        //testCount();
-        //testStartWith();
+        edittext_demo1_log = findViewById(R.id.edittext_demo1_log);
+        edittext_demo1_log.setClickable(false);
+        edittext_demo1_log.setFocusable(false);
+
+        mpid = android.os.Process.myPid();
+    }
+
+    Handler mhandler = new Handler(){
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    break;
+                case 2:
+                    //显示日志
+                    edittext_demo1_log.setMovementMethod(ScrollingMovementMethod.getInstance());
+                    edittext_demo1_log.setSelection(edittext_demo1_log.getText().length(), edittext_demo1_log.getText().length());
+                    edittext_demo1_log.setText(edittext_demo1_log.getText().append(msg.obj.toString()));
+                    break;
+            }
+        }
+    };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        logShow.show(mhandler,mpid);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        logShow.recycle();
+    }
+
+
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.button_test_rxjava:
+                testrxjava();
+                break;
+            case R.id.button_test_map:
+                testmap();
+                break;
+            case R.id.button_test_flatmap:
+                testflatmap();
+                break;
+            case R.id.button_test_concatmap:
+                testconcatmap();
+                break;
+            case R.id.button_test_buffer:
+                testbuffer();
+                break;
+            case R.id.button_test_concat:
+                testconcat();
+                break;
+            case R.id.button_test_merge:
+                testmerge();
+                break;
+            case R.id.button_test_merge_delayerror:
+                testmergeDelayError();
+                break;
+            case R.id.button_test_zip:
+                testzip();
+                break;
+            case R.id.button_test_combinelastest:
+                testcombineLastest();
+                break;
+            case R.id.button_test_count:
+                testCount();
+                break;
+            case R.id.button_test_startwith:
+                testStartWith();
+                break;
+
+
+        }
     }
 
 
@@ -553,4 +628,6 @@ public class Demo1Activity extends AppCompatActivity {
                     }
                 });
     }
+
+
 }
